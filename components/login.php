@@ -34,7 +34,9 @@ if (session_status() === PHP_SESSION_NONE) {
 
     <div id="registerForm" class="auth-form">
       <form action="/desainIn/controllers/auth.php?action=register" method="POST">
+        <input type="text" name="full_name" placeholder="Nama Lengkap" required>
         <input type="text" name="username" placeholder="Username" required>
+        <input type="email" name="email" placeholder="Email" required>
         <input type="tel" name="phone" placeholder="Nomor Handphone" required>
         <input type="password" name="password" placeholder="Password" required>
         <input type="password" name="confirm_password" placeholder="Konfirmasi Password" required>

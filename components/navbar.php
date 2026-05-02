@@ -63,7 +63,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
       <div class="d-flex align-items-center">
         <?php if (isset($_SESSION['user'])): ?>
-          <span class="me-3">Halo, <?= htmlspecialchars($_SESSION['user']['username']); ?></span>
+          <span class="me-3">Halo, <?= htmlspecialchars($_SESSION['user']['full_name'] ?? $_SESSION['user']['username']); ?></span>
           <a href="/desainIn/logout.php" class="text-danger text-decoration-none">Logout</a>
         <?php else: ?>
           <a href="#" class="btn-daftar" onclick="showAuthTab('register'); openAuth()">Daftar</a>

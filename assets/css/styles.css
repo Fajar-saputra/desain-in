@@ -270,14 +270,20 @@ body {
 
 .admin-shell {
     display: grid;
-    grid-template-columns: 247px minmax(0, 1fr);
+    grid-template-columns: 0px minmax(0, 1fr);
+    min-height: 100vh;
+    transition: grid-template-columns 0.3s ease;
     min-height: 100vh;
 }
 
 .admin-sidebar {
     background: #222b37;
     color: #cbd5e1;
-    padding: 22px 20px;
+    padding: 22px 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    width: 0;
+    opacity: 0;
 }
 
 .admin-brand {
@@ -393,6 +399,22 @@ body {
     font-weight: 700;
     height: 40px;
     width: 40px;
+}
+
+.admin-shell.sidebar-show {
+    grid-template-columns: 247px minmax(0, 1fr);
+}
+
+.admin-shell.sidebar-show .admin-sidebar {
+    width: 247px;
+    padding: 22px 20px;
+    opacity: 1;
+}
+
+/* Tambahan agar konten utama tidak bergeser aneh */
+.admin-main {
+    min-width: 0;
+    width: 100%;
 }
 
 .admin-hero {
@@ -630,6 +652,28 @@ body {
 .admin-empty-state p {
     color: #6b7280;
     margin: 0;
+}
+
+/* Keadaan Sidebar Tertutup */
+.admin-shell.sidebar-collapsed {
+    grid-template-columns: 0px minmax(0, 1fr);
+}
+
+.admin-shell.sidebar-collapsed .admin-sidebar {
+    transform: translateX(-100%);
+    padding: 0;
+    overflow: hidden;
+    width: 0;
+}
+
+/* Transisi Halus */
+.admin-sidebar, .admin-shell {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Memastikan main content tetap rapi */
+.admin-main {
+    width: 100%;
 }
 
 @media (max-width: 1100px) {

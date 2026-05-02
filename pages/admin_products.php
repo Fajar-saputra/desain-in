@@ -2,7 +2,8 @@
 require_once __DIR__ . '/../config/helpers.php';
 require_role(['admin']);
 
-$services = $conn->query('SELECT s.*, u.username AS designer_name FROM services s LEFT JOIN users u ON u.id = s.designer_id ORDER BY s.created_at DESC')->fetchAll(PDO::FETCH_ASSOC);
+$categories = $conn->query('SELECT * FROM categories ORDER BY category_name ASC')->fetchAll(PDO::FETCH_ASSOC);
+$services = $conn->query('SELECT s.*, c.category_name, u.username AS designer_name FROM services s LEFT JOIN categories c ON c.id = s.category_id LEFT JOIN users u ON u.id = s.designer_id ORDER BY s.created_at DESC')->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <?php include __DIR__ . '/../components/navbar.php'; ?>
 <div class="container my-5">
@@ -23,6 +24,12 @@ $services = $conn->query('SELECT s.*, u.username AS designer_name FROM services 
       <div class="card shadow-sm border-0 p-4">
         <h5 class="mb-3">Tambah Produk Baru</h5>
         <form action="/desainIn/controllers/product.php?action=add" method="POST">
+          <select name="category_id" class="form-select mb-3">
+            <option value="">Pilih kategori (opsional)</option>
+            <?php foreach ($categories as $category): ?>
+              <option value="<?= $category['id']; ?>"><?= htmlspecialchars($category['category_name']); ?></option>
+            <?php endforeach; ?>
+          </select>
           <input type="text" name="name" class="form-control mb-3" placeholder="Nama layanan" required>
           <textarea name="description" class="form-control mb-3" rows="3" placeholder="Deskripsi singkat"></textarea>
           <input type="number" name="price_design" class="form-control mb-3" placeholder="Harga desain" min="0" required>
@@ -47,6 +54,7 @@ $services = $conn->query('SELECT s.*, u.username AS designer_name FROM services 
                   <tr>
                     <th>#</th>
                     <th>Nama</th>
+                    <th>Kategori</th>
                     <th>Designer</th>
                     <th>Harga Desain</th>
                     <th>Cetak</th>
@@ -58,6 +66,7 @@ $services = $conn->query('SELECT s.*, u.username AS designer_name FROM services 
                     <tr>
                       <td><?= $index + 1; ?></td>
                       <td><?= htmlspecialchars($service['name']); ?></td>
+                      <td><?= htmlspecialchars($service['category_name'] ?: '-'); ?></td>
                       <td><?= htmlspecialchars($service['designer_name'] ?: '-'); ?></td>
                       <td>Rp <?= number_format($service['price_design'], 0, ',', '.'); ?></td>
                       <td>Rp <?= number_format($service['price_print'], 0, ',', '.'); ?></td>

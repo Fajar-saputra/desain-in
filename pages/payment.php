@@ -8,7 +8,7 @@ $orderId = intval($_GET['order_id'] ?? 0);
 $service = null;
 
 if ($serviceId > 0) {
-    $stmt = $conn->prepare('SELECT * FROM services WHERE id = :id LIMIT 1');
+    $stmt = $conn->prepare('SELECT s.*, c.category_name FROM services s LEFT JOIN categories c ON c.id = s.category_id WHERE s.id = :id LIMIT 1');
     $stmt->execute(['id' => $serviceId]);
     $service = $stmt->fetch(PDO::FETCH_ASSOC);
 }
@@ -36,6 +36,7 @@ if (!$service) {
         <div class="card-body">
           <h5 class="card-title">Ringkasan Pesanan</h5>
           <p class="mb-1"><strong>Layanan:</strong> <?= htmlspecialchars($service['name']); ?></p>
+          <p class="mb-1"><strong>Kategori:</strong> <?= htmlspecialchars($service['category_name'] ?: 'Umum'); ?></p>
           <p class="mb-1"><strong>Harga desain:</strong> Rp <?= number_format($service['price_design'], 0, ',', '.'); ?></p>
           <p class="mb-1"><strong> Harga cetak:</strong> Rp <?= number_format($service['price_print'], 0, ',', '.'); ?> (opsional)</p>
           <p class="mb-1"><strong>Deskripsi:</strong> <?= htmlspecialchars($service['description']); ?></p>
@@ -44,8 +45,16 @@ if (!$service) {
 
       <div class="card shadow-sm border-0 p-4">
         <h5 class="mb-3">Metode Pembayaran</h5>
-        <form action="/desainIn/controllers/order.php?action=create" method="POST">
+        <form action="/desainIn/controllers/order.php?action=create" method="POST" enctype="multipart/form-data">
           <input type="hidden" name="service_id" value="<?= $service['id']; ?>">
+          <div class="mb-3">
+            <label class="form-label">Brief desain</label>
+            <textarea name="design_brief" class="form-control" rows="4" placeholder="Ceritakan konsep, warna, ukuran, teks, dan kebutuhan desain Anda."></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">File referensi</label>
+            <input type="file" name="reference_file" class="form-control" accept=".jpg,.jpeg,.png,.webp,.pdf">
+          </div>
           <div class="mb-3">
             <label class="form-label">Jumlah</label>
             <input type="number" name="quantity" class="form-control" min="1" value="1" required>
@@ -68,6 +77,10 @@ if (!$service) {
               <option value="ewallet">E-Wallet</option>
               <option value="cod">Cash on Delivery</option>
             </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Bukti pembayaran</label>
+            <input type="file" name="proof_of_payment" class="form-control" accept=".jpg,.jpeg,.png,.webp,.pdf">
           </div>
           <button class="btn btn-order w-100" type="submit">Bayar Sekarang</button>
         </form>

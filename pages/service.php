@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../config/helpers.php';
 $services = [];
 try {
-    $query = 'SELECT s.*, u.username AS designer_name FROM services s LEFT JOIN users u ON s.designer_id = u.id ORDER BY s.created_at DESC';
+    $query = 'SELECT s.*, c.category_name, u.username AS designer_name FROM services s LEFT JOIN categories c ON c.id = s.category_id LEFT JOIN users u ON s.designer_id = u.id ORDER BY s.created_at DESC';
     $stmt = $conn->query($query);
     $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
@@ -28,6 +28,7 @@ try {
             </div>
             <div class="card-body">
               <h5 class="card-title"><?= htmlspecialchars($service['name']); ?></h5>
+              <p class="badge bg-light text-dark border mb-2"><?= htmlspecialchars($service['category_name'] ?: 'Umum'); ?></p>
               <p class="card-text text-muted" style="min-height: 3rem;"><?= htmlspecialchars($service['description']); ?></p>
               <p class="mb-1"><strong>Harga desain:</strong> Rp <?= number_format($service['price_design'], 0, ',', '.'); ?></p>
               <p class="mb-3"><strong>Harga cetak:</strong> Rp <?= number_format($service['price_print'], 0, ',', '.'); ?></p>

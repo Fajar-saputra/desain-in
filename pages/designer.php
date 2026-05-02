@@ -5,11 +5,13 @@ require_role(['designer']);
 $services = [];
 $orders = [];
 
-$serviceStmt = $conn->prepare('SELECT * FROM services WHERE designer_id = :designer_id ORDER BY created_at DESC');
+$categories = $conn->query('SELECT * FROM categories ORDER BY category_name ASC')->fetchAll(PDO::FETCH_ASSOC);
+
+$serviceStmt = $conn->prepare('SELECT s.*, c.category_name FROM services s LEFT JOIN categories c ON c.id = s.category_id WHERE s.designer_id = :designer_id ORDER BY s.created_at DESC');
 $serviceStmt->execute(['designer_id' => $_SESSION['user']['id']]);
 $services = $serviceStmt->fetchAll(PDO::FETCH_ASSOC);
 
-$orderStmt = $conn->prepare('SELECT o.*, s.name AS service_name, u.username AS customer_name FROM orders o JOIN services s ON s.id = o.service_id JOIN users u ON u.id = o.user_id WHERE s.designer_id = :designer_id ORDER BY o.created_at DESC LIMIT 10');
+$orderStmt = $conn->prepare('SELECT o.*, s.name AS service_name, u.full_name AS customer_name FROM orders o JOIN services s ON s.id = o.service_id JOIN users u ON u.id = o.user_id WHERE s.designer_id = :designer_id ORDER BY o.created_at DESC LIMIT 10');
 $orderStmt->execute(['designer_id' => $_SESSION['user']['id']]);
 $orders = $orderStmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -38,7 +40,13 @@ $orders = $orderStmt->fetchAll(PDO::FETCH_ASSOC);
                 <li class="list-group-item">
                   <strong><?= htmlspecialchars($order['service_name']); ?></strong><br>
                   Pelanggan: <?= htmlspecialchars($order['customer_name']); ?>
-                  <div class="small text-muted">Status: <?= htmlspecialchars(ucfirst($order['order_status'])); ?> | Pembayaran: <?= htmlspecialchars(ucfirst($order['payment_status'])); ?></div>
+                  <?php if (!empty($order['design_brief'])): ?>
+                    <div class="small">Brief: <?= htmlspecialchars($order['design_brief']); ?></div>
+                  <?php endif; ?>
+                  <?php if (!empty($order['reference_file'])): ?>
+                    <div class="small"><a href="<?= htmlspecialchars($order['reference_file']); ?>" target="_blank">Lihat file referensi</a></div>
+                  <?php endif; ?>
+                  <div class="small text-muted">Status: <?= htmlspecialchars(ucfirst($order['order_status'])); ?> | Pembayaran: <?= htmlspecialchars(ucfirst($order['payment_status'])); ?> | Revisi: <?= (int) $order['revision_count']; ?>/5</div>
                 </li>
               <?php endforeach; ?>
             </ul>
@@ -58,6 +66,12 @@ $orders = $orderStmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="alert alert-success"><?= htmlspecialchars($message); ?></div>
           <?php endif; ?>
           <form action="/desainIn/controllers/product.php?action=add" method="POST">
+            <select name="category_id" class="form-select mb-2">
+              <option value="">Pilih kategori (opsional)</option>
+              <?php foreach ($categories as $category): ?>
+                <option value="<?= $category['id']; ?>"><?= htmlspecialchars($category['category_name']); ?></option>
+              <?php endforeach; ?>
+            </select>
             <input type="text" name="name" class="form-control mb-2" placeholder="Nama desain" required>
             <textarea name="description" class="form-control mb-2" rows="3" placeholder="Deskripsi singkat"></textarea>
             <input type="number" name="price_design" class="form-control mb-2" placeholder="Harga desain" min="0" required>
@@ -81,6 +95,7 @@ $orders = $orderStmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="card shadow-sm border-0">
               <div class="card-body">
                 <h5><?= htmlspecialchars($service['name']); ?></h5>
+                <span class="badge bg-light text-dark border mb-2"><?= htmlspecialchars($service['category_name'] ?: 'Umum'); ?></span>
                 <p class="text-muted small mb-2"><?= htmlspecialchars($service['description']); ?></p>
                 <div class="d-flex justify-content-between align-items-center">
                   <span>Desain: Rp <?= number_format($service['price_design'], 0, ',', '.'); ?></span>

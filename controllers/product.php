@@ -10,6 +10,7 @@ if (!in_array($action, ['add', 'delete'], true)) {
 
 if ($action === 'add') {
     require_role(['admin', 'designer']);
+    $categoryId = intval($_POST['category_id'] ?? 0);
     $name = trim($_POST['name'] ?? '');
     $description = trim($_POST['description'] ?? '');
     $priceDesign = floatval($_POST['price_design'] ?? 0);
@@ -21,8 +22,9 @@ if ($action === 'add') {
         header('Location: ' . ($_SESSION['user']['role'] === 'admin' ? '/desainIn/pages/admin_products.php' : '/desainIn/pages/designer.php'));
         exit;
     }
-    $insert = $conn->prepare('INSERT INTO services (name, description, price_design, price_print, image_url, designer_id) VALUES (:name, :description, :price_design, :price_print, :image_url, :designer_id)');
+    $insert = $conn->prepare('INSERT INTO services (category_id, name, description, price_design, price_print, image_url, designer_id) VALUES (:category_id, :name, :description, :price_design, :price_print, :image_url, :designer_id)');
     $insert->execute([
+        'category_id' => $categoryId > 0 ? $categoryId : null,
         'name' => $name,
         'description' => $description,
         'price_design' => $priceDesign,

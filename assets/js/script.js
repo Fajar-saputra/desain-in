@@ -1,40 +1,42 @@
+const AUTH_MODAL_ID = "authModal";
+const AUTH_ACTIVE_CLASS = "active";
+
+function getAuthModal() {
+    return document.getElementById(AUTH_MODAL_ID);
+}
+
+function setVisible(element, isVisible) {
+    if (!element) {
+        return;
+    }
+
+    element.style.display = isVisible ? "flex" : "none";
+}
+
+function setActive(element, isActive) {
+    if (!element) {
+        return;
+    }
+
+    element.classList.toggle(AUTH_ACTIVE_CLASS, isActive);
+}
+
 function openAuth() {
-    const modal = document.getElementById("authModal");
-    if (!modal) return;
-    modal.style.display = "flex";
+    setVisible(getAuthModal(), true);
 }
 
 function closeAuth() {
-    const modal = document.getElementById("authModal");
-    if (!modal) return;
-    modal.style.display = "none";
+    setVisible(getAuthModal(), false);
 }
 
 function showAuthTab(tab) {
-    const loginTab = document.getElementById("loginTab");
-    const registerTab = document.getElementById("registerTab");
-    const loginForm = document.getElementById("loginForm");
-    const registerForm = document.getElementById("registerForm");
+    const isRegister = tab === "register";
 
-    if (tab === "register") {
-        if (loginTab) loginTab.classList.remove("active");
-        if (registerTab) registerTab.classList.add("active");
-        loginForm.classList.remove("active");
-        registerForm.classList.add("active");
-    } else {
-        if (registerTab) registerTab.classList.remove("active");
-        if (loginTab) loginTab.classList.add("active");
-        registerForm.classList.remove("active");
-        loginForm.classList.add("active");
-    }
+    setActive(document.getElementById("loginTab"), !isRegister);
+    setActive(document.getElementById("registerTab"), isRegister);
+    setActive(document.getElementById("loginForm"), !isRegister);
+    setActive(document.getElementById("registerForm"), isRegister);
 }
-
-window.onclick = function (e) {
-    const modal = document.getElementById("authModal");
-    if (modal && e.target === modal) {
-        modal.style.display = "none";
-    }
-};
 
 function openLogin() {
     openAuth();
@@ -44,15 +46,53 @@ function closeLogin() {
     closeAuth();
 }
 
-window.addEventListener("DOMContentLoaded", function () {
-    const openTarget = document.body.dataset.authOpen;
-    const authTab = document.body.dataset.authTab;
-    if (openTarget === "true") {
-        if (authTab === "register") {
-            showAuthTab("register");
-        } else {
-            showAuthTab("login");
-        }
-        openAuth();
+function closeAuthOnBackdropClick(event) {
+    const modal = getAuthModal();
+
+    if (modal && event.target === modal) {
+        closeAuth();
     }
+}
+
+function openRequestedAuthTab() {
+    const openTarget = document.body.dataset.authOpen;
+
+    if (openTarget !== "true") {
+        return;
+    }
+
+    showAuthTab(document.body.dataset.authTab === "register" ? "register" : "login");
+    openAuth();
+}
+
+function initAdminSidebar() {
+    const menuButton = document.querySelector(".admin-menu-button");
+    const adminShell = document.querySelector(".admin-shell");
+    const mainContent = document.querySelector(".admin-main");
+
+    if (!menuButton || !adminShell) return;
+
+    // Klik tombol untuk buka/tutup
+    menuButton.addEventListener("click", function (event) {
+        event.stopPropagation();
+        adminShell.classList.toggle("sidebar-show");
+    });
+
+    // Klik di area konten utama untuk menutup sidebar (opsional/user friendly)
+    if (mainContent) {
+        mainContent.addEventListener("click", function () {
+            if (adminShell.classList.contains("sidebar-show")) {
+                adminShell.classList.remove("sidebar-show");
+            }
+        });
+    }
+}
+
+document.addEventListener("click", closeAuthOnBackdropClick);
+
+document.addEventListener("DOMContentLoaded", function () {
+    openRequestedAuthTab();
+    initAdminSidebar();
 });
+
+
