@@ -1,6 +1,10 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/desainIn/assets/css/sytles.css">
-
+<link rel="stylesheet" href="/desainIn/assets/css/styles.css">
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
   <div class="container">
@@ -15,36 +19,60 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav mx-auto gap-lg-4">
         <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-2" href="#">
-            <img src="/desainIn/assets/icons/users.png" class="nav-icon" alt=""> Designer
+          <a class="nav-link d-flex align-items-center gap-2" href="/desainIn/index.php">
+            <img src="/desainIn/assets/icons/users.png" class="nav-icon" alt=""> Home
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-2" href="#">
+          <a class="nav-link d-flex align-items-center gap-2" href="/desainIn/pages/service.php">
             <img src="/desainIn/assets/icons/document.png" class="nav-icon" alt=""> Service
           </a>
         </li>
+        <?php $role = $_SESSION['user']['role'] ?? null; ?>
+        <?php if ($role === 'user'): ?>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2" href="/desainIn/pages/myOrder.php">
+              <img src="/desainIn/assets/icons/online-shopping.png" class="nav-icon" alt=""> Pesanan Saya
+            </a>
+          </li>
+        <?php elseif ($role === 'designer'): ?>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2" href="/desainIn/pages/designer.php">
+              <img src="/desainIn/assets/icons/users.png" class="nav-icon" alt=""> Designer
+            </a>
+          </li>
+        <?php elseif ($role === 'admin'): ?>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2" href="/desainIn/pages/admin_dashboard.php">
+              <img src="/desainIn/assets/icons/users.png" class="nav-icon" alt=""> Admin
+            </a>
+          </li>
+        <?php else: ?>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2" href="#">
+              <img src="/desainIn/assets/icons/users.png" class="nav-icon" alt=""> Designer
+            </a>
+          </li>
+        <?php endif; ?>
         <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-2" href="#">
-            <img src="/desainIn/assets/icons/users.png" class="nav-icon" alt=""> About Us
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-2" href="#">
-            <img src="/desainIn/assets/icons/online-shopping.png" class="nav-icon" alt=""> Pesanan Saya
+          <a class="nav-link d-flex align-items-center gap-2" href="/desainIn/pages/profile.php">
+            <img src="/desainIn/assets/icons/users.png" class="nav-icon" alt=""> Profil
           </a>
         </li>
       </ul>
 
       <div class="d-flex align-items-center">
         <?php if (isset($_SESSION['user'])): ?>
-          <span class="me-3">Halo, <?= $_SESSION['user']['name']; ?></span>
+          <span class="me-3">Halo, <?= htmlspecialchars($_SESSION['user']['username']); ?></span>
           <a href="/desainIn/logout.php" class="text-danger text-decoration-none">Logout</a>
         <?php else: ?>
-          <a href="/desainIn/pages/register.php" class="btn-daftar">Daftar</a>
-          <a href="/desainIn/pages/login.php" class="btn btn-masuk">Masuk</a>
+          <a href="#" class="btn-daftar" onclick="showAuthTab('register'); openAuth()">Daftar</a>
+          <a href="#" class="btn btn-masuk" onclick="showAuthTab('login'); openAuth()">Masuk</a>
         <?php endif; ?>
       </div>
     </div>
   </div>
 </nav>
+
+<?php include __DIR__ . '/login.php'; ?>
+<script src="/desainIn/assets/js/script.js"></script>
