@@ -261,6 +261,99 @@ body {
     color: #4b5563;
 }
 
+/* Service page */
+.service-page {
+    background: #fff;
+    padding: 34px 8vw 24px;
+}
+
+.service-intro {
+    margin: 0 auto 20px;
+    max-width: 1080px;
+}
+
+.service-intro h1 {
+    color: #050505;
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: 0;
+    line-height: 1.15;
+    margin: 0;
+}
+
+.service-section {
+    align-items: center;
+    display: grid;
+    gap: 44px;
+    grid-template-columns: minmax(280px, 420px) minmax(320px, 1fr);
+    margin: 0 auto 54px;
+    max-width: 1080px;
+}
+
+.service-section-print {
+    grid-template-columns: minmax(320px, 1fr) minmax(280px, 420px);
+}
+
+.service-media {
+    aspect-ratio: 420 / 236;
+    overflow: hidden;
+    width: 100%;
+}
+
+.service-media img {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+}
+
+.service-copy h2 {
+    color: #050505;
+    font-size: 38px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.2;
+    margin: 0 0 30px;
+}
+
+.service-copy p {
+    color: #111;
+    font-size: 17px;
+    line-height: 1.42;
+    margin: 0;
+    max-width: 620px;
+}
+
+@media (max-width: 900px) {
+    .service-page {
+        padding: 28px 24px 10px;
+    }
+
+    .service-intro h1 {
+        font-size: 38px;
+    }
+
+    .service-section,
+    .service-section-print {
+        gap: 24px;
+        grid-template-columns: 1fr;
+        margin-bottom: 42px;
+    }
+
+    .service-section-print .service-media {
+        order: -1;
+    }
+
+    .service-copy h2 {
+        font-size: 30px;
+        margin-bottom: 16px;
+    }
+
+    .service-copy p {
+        font-size: 16px;
+    }
+}
+
 /* Admin dashboard */
 .admin-body {
     background: #eef2f7;
