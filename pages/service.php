@@ -1,6 +1,4 @@
-<?php
-require_once __DIR__ . '/../config/helpers.php';
-?>
+<?php require_once __DIR__ . '/../config/helpers.php'; ?>
 <?php include __DIR__ . '/../components/navbar.php'; ?>
 
 <main class="service-page">
