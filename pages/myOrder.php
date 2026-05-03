@@ -10,7 +10,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php include __DIR__ . '/../components/navbar.php'; ?>
 <div class="container my-5">
   <div class="mb-4">
-    <h1 class="fw-bold">Pesanan Saya</h1>
+    <h1 class="fw-bold text-3xl">Pesanan Saya</h1>
     <p class="text-muted">Lihat status pesanan, pilihan cetak, dan informasi pembayaran Anda.</p>
   </div>
 

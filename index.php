@@ -19,21 +19,34 @@ if (session_status() === PHP_SESSION_NONE) {
     <?php include 'components/navbar.php'; ?>
 
 <div class="container mt-5">
-    <div class="row align-items-center">
-        <!-- Hero Section -->
-        <div class="col-lg-6">
-            <h1 class="hero-title">Temukan<br>Desain Terbaikmu<br>Disini</h1>
-            <p class="text-muted my-4">Lorem ipsum dolor sit amet...</p>
-            <?php if (!isset($_SESSION['user'])): ?>
-                <button class="btn btn-order" onclick="openAuth()">Order Now</button>
-            <?php else: ?>
-                <a href="/desainIn/pages/service.php" class="btn btn-order">Order Now</a>
-            <?php endif; ?>
-        </div>
-        <div class="col-lg-6">
-            <img src="./assets/images/hero-image.png" class="hero-img shadow" alt="Hero Image">
-        </div>
+<div class="row align-items-center">
+
+    <!-- IMAGE (mobile: atas) -->
+    <div class="col-12 col-lg-6 order-1 order-lg-2 text-center mb-4 mb-lg-0">
+        <img src="./assets/images/hero-image.png"
+     class="img-fluid rounded-4 shadow"
+     style="aspect-ratio: 1/1; object-fit: cover;"
+     alt="Hero Image">
     </div>
+
+    <!-- TEXT (mobile: bawah) -->
+    <div class="col-12 col-lg-6 order-2 order-lg-1">
+        <h1 class="display-4 fw-bold lh-1 text-uppercase">
+            Temukan Desain Terbaikmu<br>Disini
+        </h1>
+
+        <p class="text-muted my-4">
+            Lorem ipsum dolor sit amet...
+        </p>
+
+        <?php if (!isset($_SESSION['user'])): ?>
+            <button class="btn btn-order" onclick="openAuth()">Order Now</button>
+        <?php else: ?>
+            <a href="/desainIn/pages/service.php" class="btn btn-order">Order Now</a>
+        <?php endif; ?>
+    </div>
+
+</div>
 
     <div class="mt-5 pt-5">
         <h3 class="fw-bold mb-4">Latest Design</h3>

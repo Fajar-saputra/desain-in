@@ -5,7 +5,6 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
-/* Opsional: Jika ingin heading (h1-h6) terasa lebih tegas */
 h1,
 h2,
 h3,
@@ -30,7 +29,8 @@ body {
     padding: 8px 12px !important;
 }
 
-.nav-link:hover {
+.nav-link:hover,
+.nav-link.active {
     color: #2F9BE8 !important;
     background-color: rgba(47, 155, 232, 0.05);
     /* Background biru sangat tipis */
@@ -40,10 +40,9 @@ body {
 
 /* Navbar Icons */
 .nav-icon {
-    height: 20px !important;
-    /* Ukuran icon navbar sesuai proporsi */
-    width: auto;
-    margin-right: 5px;
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
 }
 
 /* Buttons */
@@ -81,12 +80,6 @@ body {
     color: white !important;
 }
 
-/* Hero Section */
-.hero-title {
-    font-size: 3.5rem;
-    font-weight: 800;
-    line-height: 1.1;
-}
 
 .btn-order {
     background-color: #2F9BE8;
@@ -97,12 +90,42 @@ body {
     border: none;
 }
 
-.hero-img {
-    border-radius: 50px;
-    /* Sesuai gambar yang tumpul sudutnya */
-    width: 100%;
+/* about */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr; /* kiri lebih besar */
+  gap: 40px;
+  align-items: center;
 }
 
+/* versi mobile */
+@media (max-width: 992px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* gambar bulat */
+.founder-img-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.founder-img {
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 50%; /* INI YANG BUAT BULAT */
+  border: 8px solid white;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+.founder-img {
+  transition: transform 0.3s ease;
+}
+
+.founder-img:hover {
+  transform: scale(1.05);
+}
 
 /* login/register popup */
 .auth-modal {
@@ -133,8 +156,8 @@ body {
 .auth-close {
     position: absolute;
     top: 18px;
-    right: 18px;
-    width: 36px;
+    right: 18px !important;
+    width: 36px !important;
     height: 36px;
     display: inline-flex;
     justify-content: center;
@@ -1016,7 +1039,7 @@ body {
     gap: 16px;
 }
 
-.admin-project-cell > span {
+.admin-project-cell>span {
     align-items: center;
     background: #f0f7ff;
     border: 1px solid #d7e9ff;
@@ -1115,7 +1138,8 @@ body {
 }
 
 /* Transisi Halus */
-.admin-sidebar, .admin-shell {
+.admin-sidebar,
+.admin-shell {
     transition: all 0.3s ease-in-out;
 }
 
