@@ -31,9 +31,10 @@ function navActive(string $link, string $uriPath): string {
     </button>
 
     <!-- NAVBAR -->
-    <div class="collapse navbar-collapse d-flex justify-content-between align-items-center w-100" id="navbarNav">
+    <div class="collapse navbar-collapse" id="navbarNav">
 
       <!-- MENU TENGAH -->
+       <div class="d-lg-flex justify-content-between align-items-center w-100">
       <ul class="navbar-nav mx-auto gap-lg-4 d-flex align-items-center">
 
         <li class="nav-item">
@@ -108,8 +109,10 @@ function navActive(string $link, string $uriPath): string {
       </div>
 
     </div>
+    </div>
   </div>
 </nav>
 
 <?php include __DIR__ . '/login.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/desainIn/assets/js/script.js"></script>
