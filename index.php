@@ -1,8 +1,3 @@
-<?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +11,8 @@ if (session_status() === PHP_SESSION_NONE) {
 </head>
 <body>
 
-    <?php include 'components/navbar.php'; ?>
+    <?php include 'components/navbar.php';
+    ?>
 
 <div class="container mt-5">
 <div class="row align-items-center">

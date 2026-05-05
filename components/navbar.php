@@ -1,8 +1,5 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
+require_once __DIR__ . '/../config/helpers.php';
 $uriPath = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '', '/');
 
 function navActive(string $link, string $uriPath): string {
@@ -60,7 +57,7 @@ function navActive(string $link, string $uriPath): string {
         </li>
 
         <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-2 <?= navActive('/desainIn/pages/designer.php', $uriPath); ?>" href="/desainIn/pages/designer.php">
+          <a class="nav-link d-flex align-items-center gap-2 <?= navActive('/desainIn/designer/designer.php', $uriPath); ?>" href="/desainIn/designer/designer.php">
             <img src="/desainIn/assets/icons/users.png" class="nav-icon" alt="">
             Designer
           </a>
@@ -77,7 +74,7 @@ function navActive(string $link, string $uriPath): string {
           </li>
         <?php elseif ($role === 'admin'): ?>
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2 <?= navActive('/desainIn/pages/admin_dashboard.php', $uriPath); ?>" href="/desainIn/pages/admin_dashboard.php">
+            <a class="nav-link d-flex align-items-center gap-2 <?= navActive('/desainIn/admin/admin_dashboard.php', $uriPath); ?>" href="/desainIn/admin/admin_dashboard.php">
               <img src="/desainIn/assets/icons/users.png" class="nav-icon" alt="">
               Admin
             </a>

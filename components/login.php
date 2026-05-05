@@ -1,8 +1,4 @@
-  <?php
-  if (session_status() === PHP_SESSION_NONE) {
-      session_start();
-  }
-  ?>
+
   <div id="authModal" class="auth-modal">
     <div class="auth-box">
       <button type="button" class="auth-close" onclick="closeAuth()">&times;</button>
@@ -57,3 +53,5 @@
     });
   </script>
   <?php unset($_SESSION['auth_open'], $_SESSION['auth_tab']); endif; ?>
+
+

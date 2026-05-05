@@ -1,54 +1,49 @@
 <?php
-session_start();
-require_once dirname(__DIR__) . '/config/database.php';
-
-$action = $_GET['action'] ?? '';
+require_once __DIR__ . '/../config/helpers.php';
 $redirect = '/desainIn/index.php';
 
-function flash($key, $message) {
-    $_SESSION[$key] = $message;
-}
+$action = $_GET['action'] ?? '';
 
 if ($action === 'login') {
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    if ($username === '' || $password === '') {
+    if (!$username || !$password) {
         flash('auth_error', 'Username dan password wajib diisi.');
-        $redirect = '/desainIn/index.php';
     } else {
-        $stmt = $conn->prepare('SELECT id, username, full_name, email, phone, profile_picture, address, bio, password_hash, role FROM users WHERE username = :username LIMIT 1');
+        $stmt = $conn->prepare('SELECT * FROM users WHERE username = :username LIMIT 1');
         $stmt->execute(['username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$user || !password_verify($password, $user['password_hash'])) {
-            flash('auth_error', 'Username atau password tidak cocok.');
-            $redirect = '/desainIn/index.php';
-        } else {
+        if ($user && password_verify($password, $user['password_hash'])) {
+
             $_SESSION['user'] = [
                 'id' => $user['id'],
                 'username' => $user['username'],
                 'full_name' => $user['full_name'],
-                'email' => $user['email'],
-                'phone' => $user['phone'],
-                'profile_picture' => $user['profile_picture'],
-                'address' => $user['address'],
-                'bio' => $user['bio'],
-                'role' => $user['role'],
+                'role' => $user['role']
             ];
-            if ($user['role'] === 'admin') {
-                header('Location: /desainIn/pages/admin_dashboard.php');
-            } elseif ($user['role'] === 'designer') {
-                header('Location: /desainIn/pages/designer.php');
-            } else {
-                header('Location: /desainIn/pages/service.php');
+
+            // redirect role
+            switch ($user['role']) {
+                case 'admin':
+                    header("Location: /desainIn/admin/admin_dashboard.php");
+                    break;
+                case 'designer':
+                    header("Location: /desainIn/designer/designer.php");
+                    break;
+                default:
+                    header("Location: /desainIn/index.php");
             }
             exit;
+        } else {
+            flash('auth_error', 'Username atau password salah.');
         }
     }
+
     $_SESSION['auth_open'] = true;
     $_SESSION['auth_tab'] = 'login';
-    header('Location: ' . $redirect);
+    header('Location: /desainIn/index.php');
     exit;
 }
 
@@ -102,4 +97,5 @@ if ($action === 'register') {
 }
 
 header('Location: ' . $redirect);
+
 exit;
