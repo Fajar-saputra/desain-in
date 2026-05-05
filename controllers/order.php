@@ -1,6 +1,5 @@
 <?php 
-require_once 'config/helpers.php'; // Sesuaikan path-nya
-// Logic untuk ambil data service/produk jika ada
+require_once __DIR__ . '/../config/helpers.php';
 ?>
 <!DOCTYPE html>
 <html lang="id">

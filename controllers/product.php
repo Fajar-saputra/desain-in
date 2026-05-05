@@ -1,6 +1,5 @@
 <?php
-session_start();
-require_once dirname(__DIR__) . '/config/helpers.php';
+require_once __DIR__ . '/../config/helpers.php';
 
 $action = $_GET['action'] ?? '';
 if (!in_array($action, ['add', 'delete'], true)) {
@@ -19,7 +18,7 @@ if ($action === 'add') {
     $designerId = $_SESSION['user']['role'] === 'designer' ? $_SESSION['user']['id'] : intval($_POST['designer_id'] ?? 0);
     if ($name === '') {
         flash('auth_error', 'Nama produk tidak boleh kosong.');
-        header('Location: ' . ($_SESSION['user']['role'] === 'admin' ? '/desainIn/pages/admin_products.php' : '/desainIn/pages/designer.php'));
+        header('Location: ' . ($_SESSION['user']['role'] === 'admin' ? '/desainIn/admin/admin_products.php' : '/desainIn/designer/designer.php'));
         exit;
     }
     $insert = $conn->prepare('INSERT INTO services (category_id, name, description, price_design, price_print, image_url, designer_id) VALUES (:category_id, :name, :description, :price_design, :price_print, :image_url, :designer_id)');
@@ -33,7 +32,7 @@ if ($action === 'add') {
         'designer_id' => $designerId > 0 ? $designerId : null,
     ]);
     flash('auth_success', 'Produk desain berhasil ditambahkan.');
-    header('Location: ' . ($_SESSION['user']['role'] === 'admin' ? '/desainIn/pages/admin_products.php' : '/desainIn/pages/designer.php'));
+    header('Location: ' . ($_SESSION['user']['role'] === 'admin' ? '/desainIn/admin/admin_products.php' : '/desainIn/designer/designer.php'));
     exit;
 }
 
@@ -45,6 +44,6 @@ if ($action === 'delete') {
         $delete->execute(['id' => $serviceId]);
         flash('auth_success', 'Produk desain berhasil dihapus.');
     }
-    header('Location: /desainIn/pages/admin_products.php');
+    header('Location: /desainIn/admin/admin_products.php');
     exit;
 }

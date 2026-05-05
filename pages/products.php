@@ -1,5 +1,5 @@
 <?php
-require_once "../config/database.php";
+require_once __DIR__ . '/../config/helpers.php';
 
 // Ambil data kategori
 $categories_query = $conn->query("SELECT * FROM categories");

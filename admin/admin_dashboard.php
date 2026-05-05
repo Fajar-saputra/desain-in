@@ -98,13 +98,13 @@ $stats = [
     <div class="admin-shell">
         <!-- SIDEBAR -->
         <aside class="admin-sidebar">
-            <a class="admin-brand" href="/desainIn/pages/admin_dashboard.php">DesainIn</a>
+            <a class="admin-brand" href="/desainIn/admin/admin_dashboard.php">DesainIn</a>
             <nav class="admin-menu" aria-label="Admin navigation">
-                <a class="admin-menu-link active" href="/desainIn/pages/admin_dashboard.php">
+                <a class="admin-menu-link active" href="/desainIn/admin/admin_dashboard.php">
                     <span class="admin-menu-icon">D</span> Dashboard
                 </a>
                 <p class="admin-menu-label">Manajemen</p>
-                <a class="admin-menu-link" href="/desainIn/pages/admin_products.php">
+                <a class="admin-menu-link" href="/desainIn/admin/admin_products.php">
                     <span class="admin-menu-icon">P</span> Produk
                 </a>
                 <a class="admin-menu-link" href="#recent-orders">
@@ -143,7 +143,7 @@ $stats = [
                     <p class="admin-eyebrow">Overview</p>
                     <h1>Dashboard Admin</h1>
                 </div>
-                <a class="admin-primary-action" href="/desainIn/pages/admin_products.php">Tambah Produk</a>
+                <a class="admin-primary-action" href="/desainIn/admin/admin_products.php">Tambah Produk</a>
             </section>
 
             <section class="admin-content">

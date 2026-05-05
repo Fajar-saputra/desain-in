@@ -1,5 +1,5 @@
-<?php session_start();
-require_once dirname(__DIR__) . '/config/helpers.php';
+<?php 
+require_once __DIR__ . '/../config/helpers.php';
 
 $action = $_GET['action'] ?? '';
 if ($action !== 'update') {
