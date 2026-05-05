@@ -1,10 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #003333 !important;
-}
-
 h1,
 h2,
 h3,
@@ -19,7 +14,10 @@ h6,
 /* Font Poppins */
 body {
     font-family: 'Poppins', sans-serif;
+    background-color: #edf1f5 !important;
+    color: #516170;
 }
+
 
 /* Navbar Link & Hover */
 .nav-link {
@@ -40,9 +38,9 @@ body {
 
 /* Navbar Icons */
 .nav-icon {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
 }
 
 /* Buttons */
@@ -92,39 +90,72 @@ body {
 
 /* about */
 .about-grid {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr; /* kiri lebih besar */
-  gap: 40px;
-  align-items: center;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    /* kiri lebih besar */
+    gap: 40px;
+    align-items: center;
 }
 
 /* versi mobile */
 @media (max-width: 992px) {
-  .about-grid {
-    grid-template-columns: 1fr;
-  }
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* gambar bulat */
 .founder-img-wrapper {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .founder-img {
-  width: 400px;
-  height: 400px;
-  object-fit: cover;
-  border-radius: 50%; /* INI YANG BUAT BULAT */
-  border: 8px solid white;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 50%;
+    /* INI YANG BUAT BULAT */
+    border: 8px solid white;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
+
 .founder-img {
-  transition: transform 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .founder-img:hover {
-  transform: scale(1.05);
+    transform: scale(1.05);
+}
+
+/* product */
+.filter-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #8ba0b2;
+}
+
+.product-card-ui {
+    transition: transform 0.2s ease;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+.product-card-ui:hover {
+    transform: translateY(-5px);
+}
+
+.product-card-ui:hover .card-title {
+    color: #3db4f2;
+}
+
+.card-title {
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 /* login/register popup */
